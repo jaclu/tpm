@@ -36,7 +36,7 @@ display_plugin_update_list() {
 }
 
 update_plugin_prompt() {
-	tmux command-prompt -p 'plugin update:' " \
+	$TMUX_BIN command-prompt -p 'plugin update:' " \
 		send-keys C-c; \
 		run-shell '$SCRIPTS_DIR/update_plugin_prompt_handler.sh %1'"
 }

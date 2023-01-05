@@ -11,7 +11,7 @@ source "$CURRENT_DIR/helpers/tpm.sh"
 
 check_binding_defined() {
 	local binding="$1"
-	tmux list-keys | grep -q "$binding"
+	$TMUX_BIN list-keys | grep -q "$binding"
 }
 
 create_test_plugin_helper() {
@@ -27,7 +27,7 @@ create_test_plugin_helper() {
 
 check_tpm_path() {
 	local correct_tpm_path="$1"
-	local tpm_path="$(tmux start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)"
+	local tpm_path="$($TMUX_BIN start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)"
 	[ "$correct_tpm_path" == "$tpm_path" ]
 }
 
@@ -40,10 +40,10 @@ test_plugin_sourcing() {
 
 	# manually creates a local tmux plugin
 	create_test_plugin_helper <<- HERE
-	tmux bind-key R run-shell foo_command
+	$TMUX_BIN bind-key R run-shell foo_command
 	HERE
 
-	tmux new-session -d  # tmux starts detached
+	$TMUX_BIN new-session -d  # tmux starts detached
 	check_binding_defined "R run-shell foo_command" ||
 		fail_helper "Plugin sourcing fails"
 

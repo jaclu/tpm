@@ -1,10 +1,13 @@
+source "$HELPERS_DIR/utility.sh"
+
 _has_emacs_mode_keys() {
-	$(tmux show -gw mode-keys | grep -q emacs)
+	$($TMUX_BIN show -gw mode-keys | grep -q emacs)
 }
 
 tmux_echo() {
 	local message="$1"
-	tmux run-shell "echo '$message'"
+	$TMUX_BIN display-message "$message"
+	$TMUX_BIN run-shell "echo '$message'"
 }
 
 echo_ok() {
@@ -13,6 +16,7 @@ echo_ok() {
 
 echo_err() {
 	tmux_echo "$*"
+	sleep 3  #  Give some time for error message to be displayed in status bar
 }
 
 end_message() {

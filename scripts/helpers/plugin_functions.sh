@@ -9,7 +9,7 @@ _manual_expansion() {
 }
 
 _tpm_path() {
-	local string_path="$(tmux start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)/"
+	local string_path="$($TMUX_BIN start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)/"
 	_manual_expansion "$string_path"
 }
 
@@ -70,7 +70,7 @@ tpm_path() {
 
 tpm_plugins_list_helper() {
 	# lists plugins from @tpm_plugins option
-	echo "$(tmux start-server\; show-option -gqv "$tpm_plugins_variable_name")"
+	echo "$($TMUX_BIN start-server\; show-option -gqv "$tpm_plugins_variable_name")"
 
 	# read set -g @plugin "tmux-plugins/tmux-example-plugin" entries
 	_tmux_conf_contents "full" |
